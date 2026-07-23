@@ -1,0 +1,4 @@
+pandas>=2.1
+requests>=2.31
+geonamescache>=2.0
+statsmodels>=0.14

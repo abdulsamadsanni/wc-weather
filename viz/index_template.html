@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Heat of the Game — A Century of World Cup Football</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#070b14; --bg2:#0c1322; --panel:#0e1626; --panel2:#121d31;
+    --line:#1b2740; --line2:#243352;
+    --ink:#e9eef9; --dim:#7e8db0; --faint:#54627f;
+    --hot:#ff6b35; --verified:#ff5132; --cool:#3b6bd6;
+    --t0:#2a3f7a; --t1:#6b4a9c; --t2:#c0457a; --t3:#ef6a3a; --t4:#f7b733; --t5:#fff0c2;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased}
+  body{padding:clamp(16px,3vw,40px);line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto}
+
+  /* ---- header ---- */
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--hot);text-transform:uppercase;margin:0 0 10px}
+  h1{font-size:clamp(30px,6vw,62px);line-height:.96;font-weight:700;margin:0;letter-spacing:-.02em}
+  h1 em{font-style:normal;color:var(--hot)}
+  .thesis{color:var(--dim);max-width:42ch;font-size:15px;margin:14px 0 0}
+  .sig{font-family:var(--mono);font-size:11px;color:var(--faint);text-align:right;line-height:1.7}
+  .sig b{color:var(--ink);font-weight:500}
+
+  /* ---- main grid ---- */
+  .stage{display:grid;grid-template-columns:1fr 312px;gap:18px;margin-top:22px}
+  @media(max-width:880px){.stage{grid-template-columns:1fr}}
+
+  .mapcard{position:relative;background:radial-gradient(120% 120% at 50% 0%,#0d1626 0%,#070b14 70%);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  svg{display:block;width:100%;height:auto}
+  .graticule{stroke:var(--line);stroke-width:.6;fill:none;opacity:.55}
+  .tropic{stroke:var(--line2);stroke-width:.8;stroke-dasharray:2 5;fill:none}
+  .tropicband{fill:#ff6b35;opacity:.035}
+  .tlabel{font-family:var(--mono);font-size:8.5px;fill:var(--faint);letter-spacing:.1em}
+  .pt{stroke:#070b14;stroke-width:.4;cursor:pointer;transition:opacity .5s ease}
+  .pt.dim{opacity:.07!important}
+  .vring{fill:none;stroke:var(--verified);stroke-width:1.4}
+  .clabel{font-family:var(--mono);font-size:10px;fill:var(--ink);font-weight:500}
+  .clabel-bg{fill:#070b14;opacity:.55}
+
+  .legend{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:9.5px;color:var(--dim);display:flex;align-items:center;gap:8px}
+  .ramp{width:120px;height:7px;border-radius:4px;background:linear-gradient(90deg,var(--t0),var(--t1),var(--t2),var(--t3),var(--t4),var(--t5))}
+
+  /* ---- readout ---- */
+  .readout{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:18px 18px 20px;display:flex;flex-direction:column;gap:14px}
+  .ro-host{font-family:var(--mono);font-size:11px;color:var(--hot);letter-spacing:.18em;text-transform:uppercase}
+  .ro-year{font-size:46px;font-weight:700;line-height:.9;letter-spacing:-.02em;margin:-2px 0 0}
+  .ro-sub{color:var(--dim);font-size:13px;margin-top:-4px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+  .stat{background:#0a1120;border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+  .stat .k{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.12em;text-transform:uppercase}
+  .stat .v{font-size:22px;font-weight:700;margin-top:3px}
+  .stat .v small{font-size:11px;font-weight:500;color:var(--dim)}
+  .delta-pos{color:var(--t4)} .delta-neg{color:var(--cool)}
+
+  .vcard{border:1px solid var(--verified);background:linear-gradient(180deg,rgba(255,81,50,.10),rgba(255,81,50,.02));border-radius:10px;padding:11px 12px}
+  .vcard .vh{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--verified);display:flex;align-items:center;gap:6px}
+  .vcard .vm{font-size:14px;font-weight:600;margin:6px 0 2px}
+  .vcard .vt{font-family:var(--mono);font-size:12px;color:var(--ink)}
+  .vcard .vn{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.45}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--verified);box-shadow:0 0 0 0 rgba(255,81,50,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,81,50,.5)}70%{box-shadow:0 0 0 7px rgba(255,81,50,0)}100%{box-shadow:0 0 0 0 rgba(255,81,50,0)}}
+
+  /* ---- timeline ---- */
+  .timeline{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px}
+  .tl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .tl-title{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+  .playbtn{font-family:var(--mono);font-size:11px;color:var(--ink);background:#0a1120;border:1px solid var(--line2);border-radius:7px;padding:6px 13px;cursor:pointer;letter-spacing:.08em}
+  .playbtn:hover{border-color:var(--hot);color:var(--hot)}
+  .tl-svg{width:100%;height:96px}
+  .tk{cursor:pointer}
+  .tk-bar{transition:opacity .25s}
+  .tk-yr{font-family:var(--mono);font-size:8px;fill:var(--faint)}
+  .tk-sel .tk-yr{fill:var(--hot);font-weight:600}
+  .tl-axis{stroke:var(--line);stroke-width:1}
+  .tl-mean{stroke:var(--cool);stroke-width:.8;stroke-dasharray:3 4;opacity:.7}
+
+  footer{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .caveat{font-size:12px;color:var(--dim);max-width:64ch;line-height:1.55}
+  .caveat b{color:var(--ink);font-weight:600}
+  .src{font-family:var(--mono);font-size:10px;color:var(--faint);text-align:right;line-height:1.7}
+  a{color:var(--hot);text-decoration:none;border-bottom:1px solid rgba(255,107,53,.3)}
+
+  /* ---- tooltip ---- */
+  #tip{position:fixed;pointer-events:none;background:#0a1120;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:12px;opacity:0;transition:opacity .12s;z-index:50;max-width:220px}
+  #tip .tt-m{font-weight:600} #tip .tt-s{font-family:var(--mono);color:var(--hot)} #tip .tt-c{color:var(--dim);font-size:11px;margin-top:2px}
+  #tip .tt-w{margin-top:7px;padding-top:6px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--t4)}
+  #tip .tt-k{display:block;color:var(--faint);font-size:8.5px;letter-spacing:.14em;margin-bottom:2px}
+  #tip .tt-w.wait{color:var(--dim)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">Data study · 23 tournaments · 1930–2026</p>
+      <h1>The Heat<br>of the <em>Game</em></h1>
+      <p class="thesis">Football has been played in the Amazon at 32&deg;C and in air-conditioned deserts. Does the weather actually change the match? This atlas plots every World Cup result by where it was played — the starting point for a per-match weather analysis.</p>
+    </div>
+    <div class="sig">
+      <b>1,068 matches</b> mapped<br>
+      <b>179 host cities</b> geocoded<br>
+      <b>OPEN-METEO</b> weather join<br>
+      <span style="color:var(--faint)">built by Abdulsamad Sanni</span>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="mapcard">
+      <svg id="map" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet" aria-label="World map of World Cup matches"></svg>
+      <div class="legend"><span>fewer goals</span><div class="ramp"></div><span>more goals</span><span style="margin-left:10px;color:var(--verified)">&#9711; verified extreme heat</span></div>
+    </div>
+
+    <aside class="readout" id="readout"></aside>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-head">
+      <span class="tl-title">Goals per match, by tournament — drag or click to select</span>
+      <button class="playbtn" id="play">&#9654; PLAY CENTURY</button>
+    </div>
+    <svg class="tl-svg" id="tl" viewBox="0 0 1000 96" preserveAspectRatio="none"></svg>
+  </div>
+
+  <footer>
+    <p class="caveat"><b>Read this honestly:</b> point color shows goals scored, not temperature — and the biggest pattern here is era, not climate. Scoring fell from 5.4 goals/match in 1954 to 2.2 in 1990 as tactics tightened, a swing far larger than any weather effect. Geography alone cannot isolate weather: host selection, altitude, kickoff time and match stage all confound it. The next step joins real per-match temperature and humidity from Open-Meteo, then controls for era and venue before claiming any weather signal.</p>
+    <p class="src">SOURCE · martj42/international_results<br>WEATHER · open-meteo, fetched live on hover<br>VERIFIED CONDITIONS · ESPN, FIFA, Wikipedia</p>
+  </footer>
+</div>
+
+<div id="tip"></div>
+
+<script>
+const MATCHES = /*__DATA__*/[];
+const ERA = /*__ERA__*/{};
+const VERIFIED = /*__VERIFIED__*/{};
+
+const W=1000,H=520;
+const proj=(lat,lon)=>[(lon+180)/360*W,(90-lat)/180*H];
+
+// thermal ramp for goals 0..6
+const STOPS=[[42,63,122],[107,74,156],[192,69,122],[239,106,58],[247,183,51],[255,240,194]];
+function ramp(t){t=Math.max(0,Math.min(1,t));const s=t*(STOPS.length-1);const i=Math.floor(s);const f=s-i;
+  const a=STOPS[i],b=STOPS[Math.min(i+1,STOPS.length-1)];
+  return `rgb(${Math.round(a[0]+(b[0]-a[0])*f)},${Math.round(a[1]+(b[1]-a[1])*f)},${Math.round(a[2]+(b[2]-a[2])*f)})`;}
+const goalColor=g=>ramp(g/6);
+
+// group by tournament year
+const YEARS=[...new Set(MATCHES.map(m=>m.y))].sort((a,b)=>a-b);
+const MONTHS=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function mode(arr){const c={};let best=arr[0],n=0;for(const x of arr){c[x]=(c[x]||0)+1;if(c[x]>n){n=c[x];best=x}}return best;}
+const byYear={};
+for(const y of YEARS){
+  const ms=MATCHES.filter(m=>m.y===y);
+  const host=mode(ms.map(m=>m.co));
+  const gpm=ms.reduce((s,m)=>s+m.g,0)/ms.length;
+  const month=mode(ms.map(m=>+m.d.split('-')[1]));
+  byYear[y]={year:y,matches:ms,host,gpm,month,n:ms.length};
+}
+const ALLMEAN=MATCHES.reduce((s,m)=>s+m.g,0)/MATCHES.length;
+const vkey=m=>m.d+'|'+m.h+'|'+m.a;
+
+// ---------- MAP ----------
+const map=document.getElementById('map');
+const SVGNS='http://www.w3.org/2000/svg';
+function el(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+function drawBase(){
+  // tropic band
+  const [,yC]=proj(23.5,0),[,yCap]=proj(-23.5,0);
+  map.appendChild(el('rect',{x:0,y:yC,width:W,height:yCap-yC,class:'tropicband'}));
+  // graticule
+  for(let lon=-150;lon<=150;lon+=30){const[x]=proj(0,lon);map.appendChild(el('line',{x1:x,y1:0,x2:x,y2:H,class:'graticule'}));}
+  for(let lat=-60;lat<=60;lat+=30){const[,y]=proj(lat,0);map.appendChild(el('line',{x1:0,y1:y,x2:W,y2:y,class:'graticule'}));}
+  // tropics + equator
+  [[23.5,'TROPIC OF CANCER'],[0,'EQUATOR'],[-23.5,'TROPIC OF CAPRICORN']].forEach(([lat,lab])=>{
+    const[,y]=proj(lat,0);
+    map.appendChild(el('line',{x1:0,y1:y,x2:W,y2:y,class:'tropic'}));
+    const t=el('text',{x:8,y:y-4,class:'tlabel'});t.textContent=lab;map.appendChild(t);
+  });
+}
+const ptLayer=el('g',{}); const labelLayer=el('g',{});
+drawBase(); map.appendChild(ptLayer); map.appendChild(labelLayer);
+
+const tip=document.getElementById('tip');
+
+// ---- live weather: fetched from Open-Meteo in the browser, cached, on hover ----
+const WX={}, WXP={};                       // results cache, in-flight promises
+const wxKey=m=>`${m.lat},${m.lon},${m.d}`;
+function getWeather(m){
+  const k=wxKey(m);
+  if(k in WX) return Promise.resolve(WX[k]);
+  if(WXP[k]) return WXP[k];
+  WXP[k]=(async()=>{
+    if(+m.d.slice(0,4)<1940){WX[k]={na:true};return WX[k];}   // archive starts 1940
+    try{
+      const u=`https://archive-api.open-meteo.com/v1/archive?latitude=${m.lat}`
+        +`&longitude=${m.lon}&start_date=${m.d}&end_date=${m.d}`
+        +`&hourly=temperature_2m,relative_humidity_2m&timezone=auto`;
+      const h=(await (await fetch(u)).json()).hourly;
+      if(!h||!h.time||!h.time.length){WX[k]={err:true};return WX[k];}
+      const idx=[];for(let i=0;i<h.time.length;i++){const hr=+h.time[i].slice(11,13);if(hr>=14&&hr<22)idx.push(i);}
+      const use=idx.length?idx:h.time.map((_,i)=>i);   // afternoon-evening kickoff window
+      const T=use.map(i=>h.temperature_2m[i]).filter(v=>v!=null);
+      const Hh=use.map(i=>h.relative_humidity_2m[i]).filter(v=>v!=null);
+      WX[k]=T.length?{t:Math.round(T.reduce((a,b)=>a+b)/T.length),
+                      h:Hh.length?Math.round(Hh.reduce((a,b)=>a+b)/Hh.length):null}:{err:true};
+    }catch(e){WX[k]={err:true};}
+    return WX[k];
+  })();
+  return WXP[k];
+}
+function wxText(m){
+  if(m.t!=null) return `${m.t}\u00B0C${m.hu!=null?' \u00B7 '+m.hu+'% humidity':''}`; // pipeline-baked
+  const w=WX[wxKey(m)];
+  if(!w) return null;
+  if(w.na)  return 'no archive before 1940';
+  if(w.err) return 'unavailable (needs internet)';
+  return `${w.t}\u00B0C${w.h!=null?' \u00B7 '+w.h+'% humidity':''}`;
+}
+let curTip=null;
+function tipHTML(m){
+  const wx=wxText(m), waiting=wx==null;
+  return `<div class="tt-m">${m.h} <span class="tt-s">${m.hs}\u2013${m.as}</span> ${m.a}</div>`
+    +`<div class="tt-c">${m.c}, ${m.co} \u00B7 ${m.d}</div>`
+    +`<div class="tt-w${waiting?' wait':''}"><span class="tt-k">Match-time temperature</span>`
+    +`${waiting?'measuring\u2026':wx}</div>`;
+}
+function showTip(e,m){
+  curTip=m; tip.innerHTML=tipHTML(m); tip.style.opacity=1; moveTip(e);
+  if(wxText(m)==null) getWeather(m).then(()=>{ if(curTip===m) tip.innerHTML=tipHTML(m); });
+}
+function moveTip(e){const r=tip.getBoundingClientRect();let x=e.clientX+14,y=e.clientY+14;
+  if(x+r.width>innerWidth)x=e.clientX-r.width-14;if(y+r.height>innerHeight)y=e.clientY-r.height-14;
+  tip.style.left=x+'px';tip.style.top=y+'px';}
+function hideTip(){curTip=null;tip.style.opacity=0;}
+
+let selected=null; // year or null=ALL
+function renderMap(){
+  ptLayer.innerHTML='';labelLayer.innerHTML='';
+  const shown = selected==null ? MATCHES : byYear[selected].matches;
+  // jitter overlapping points slightly by index for legibility
+  const seen={};
+  shown.forEach((m)=>{
+    const key=m.lat+','+m.lon; seen[key]=(seen[key]||0);
+    const ang=seen[key]*2.4, rad=seen[key]?2.2+seen[key]*0.5:0;
+    seen[key]++;
+    let[x,y]=proj(m.lat,m.lon); x+=Math.cos(ang)*rad; y+=Math.sin(ang)*rad;
+    const isV=VERIFIED[vkey(m)];
+    const c=el('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:isV?4.2:(selected==null?2.2:3.6),
+      fill:goalColor(m.g),class:'pt','fill-opacity':selected==null?0.72:0.92});
+    c.addEventListener('mouseenter',e=>showTip(e,m));
+    c.addEventListener('mousemove',moveTip);
+    c.addEventListener('mouseleave',hideTip);
+    ptLayer.appendChild(c);
+    if(isV){const ring=el('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:7.5,class:'vring'});
+      ptLayer.appendChild(ring);}
+  });
+  // host city labels for a selected tournament
+  if(selected!=null){
+    const cities={};
+    byYear[selected].matches.forEach(m=>{cities[m.c]=[m.lat,m.lon];});
+    Object.entries(cities).slice(0,8).forEach(([city,[lat,lon]])=>{
+      const[x,y]=proj(lat,lon);
+      const t=el('text',{x:x+7,y:y+3,class:'clabel'});t.textContent=city;
+      const bb=el('rect',{x:x+5,y:y-6,width:city.length*6+6,height:13,rx:3,class:'clabel-bg'});
+      labelLayer.appendChild(bb);labelLayer.appendChild(t);
+    });
+  }
+}
+
+// ---------- READOUT ----------
+const ro=document.getElementById('readout');
+function renderReadout(){
+  if(selected==null){
+    ro.innerHTML=`<div class="ro-host">All tournaments</div>
+      <div class="ro-year">1930–<span style="color:var(--hot)">26</span></div>
+      <div class="ro-sub">Every World Cup match on one map</div>
+      <div class="stats">
+        <div class="stat"><div class="k">Matches</div><div class="v">${MATCHES.length}</div></div>
+        <div class="stat"><div class="k">Goals / match</div><div class="v">${ALLMEAN.toFixed(2)}</div></div>
+        <div class="stat"><div class="k">Host nations</div><div class="v">${new Set(MATCHES.map(m=>m.co)).size}</div></div>
+        <div class="stat"><div class="k">Host cities</div><div class="v">${new Set(MATCHES.map(m=>m.c)).size}</div></div>
+      </div>
+      <div class="vcard"><div class="vh"><span class="dot"></span>What the verified rings mark</div>
+      <div class="vn">Three matches with documented extreme conditions are ringed on the map. Select their tournament to read the recorded temperature and humidity.</div></div>`;
+    return;
+  }
+  const d=byYear[selected];
+  const delta=d.gpm-ALLMEAN;
+  const dcls=delta>=0?'delta-pos':'delta-neg';
+  // verified match in this tournament?
+  let vhtml='';
+  const vm=d.matches.find(m=>VERIFIED[vkey(m)]);
+  if(vm){const v=VERIFIED[vkey(vm)];
+    vhtml=`<div class="vcard"><div class="vh"><span class="dot"></span>Verified extreme conditions</div>
+      <div class="vm">${vm.h} ${vm.hs}–${vm.as} ${vm.a}</div>
+      <div class="vt">${v.temp} · ${v.humidity} humidity</div>
+      <div class="vn">${v.note}</div></div>`;}
+  ro.innerHTML=`<div class="ro-host">${d.host} · ${MONTHS[d.month]}</div>
+    <div class="ro-year">${d.year}</div>
+    <div class="ro-sub">${d.n} matches across ${new Set(d.matches.map(m=>m.c)).size} cities</div>
+    <div class="stats">
+      <div class="stat"><div class="k">Goals / match</div><div class="v">${d.gpm.toFixed(2)}</div></div>
+      <div class="stat"><div class="k">vs all-time</div><div class="v ${dcls}">${delta>=0?'+':''}${delta.toFixed(2)}<small> /match</small></div></div>
+    </div>${vhtml}`;
+}
+
+// ---------- TIMELINE ----------
+const tl=document.getElementById('tl');
+const TLW=1000,TLH=96,padB=18,padT=10;
+const gpmVals=YEARS.map(y=>byYear[y].gpm);
+const gmin=Math.min(...gpmVals),gmax=Math.max(...gpmVals);
+const yScale=g=>padT+(TLH-padB-padT)*(1-(g-gmin)/(gmax-gmin));
+const xScale=i=>20+(TLW-40)*(i/(YEARS.length-1));
+function renderTimeline(){
+  tl.innerHTML='';
+  // mean line
+  const ym=yScale(ALLMEAN);
+  tl.appendChild(el('line',{x1:0,y1:ym,x2:TLW,y2:ym,class:'tl-mean'}));
+  const ml=el('text',{x:TLW-2,y:ym-4,class:'tk-yr','text-anchor':'end'});ml.textContent='all-time mean';ml.setAttribute('fill','#3b6bd6');tl.appendChild(ml);
+  tl.appendChild(el('line',{x1:0,y1:TLH-padB,x2:TLW,y2:TLH-padB,class:'tl-axis'}));
+  YEARS.forEach((y,i)=>{
+    const x=xScale(i),yv=yScale(byYear[y].gpm);
+    const g=el('g',{class:'tk'+(selected===y?' tk-sel':'')});
+    g.appendChild(el('line',{x1:x,y1:TLH-padB,x2:x,y2:yv,class:'tk-bar',stroke:goalColor(byYear[y].gpm/6),'stroke-width':selected===y?5:3,'stroke-opacity':selected===null||selected===y?1:.4}));
+    g.appendChild(el('circle',{cx:x,cy:yv,r:selected===y?5:3.2,fill:goalColor(byYear[y].gpm/6),stroke:'#070b14','stroke-width':1}));
+    if(i%2===0||selected===y){const t=el('text',{x:x,y:TLH-6,class:'tk-yr','text-anchor':'middle'});t.textContent=("'"+String(y).slice(2));g.appendChild(t);}
+    g.addEventListener('click',()=>{select(selected===y?null:y);});
+    tl.appendChild(g);
+  });
+}
+// drag-to-scrub
+let dragging=false;
+function yearFromX(clientX){const r=tl.getBoundingClientRect();const rx=(clientX-r.left)/r.width*TLW;
+  let bi=0,bd=1e9;YEARS.forEach((y,i)=>{const d=Math.abs(xScale(i)-rx);if(d<bd){bd=d;bi=i}});return YEARS[bi];}
+tl.addEventListener('pointerdown',e=>{dragging=true;select(yearFromX(e.clientX));});
+tl.addEventListener('pointermove',e=>{if(dragging)select(yearFromX(e.clientX));});
+addEventListener('pointerup',()=>dragging=false);
+
+function select(y){selected=y;renderMap();renderReadout();renderTimeline();}
+
+// ---------- PLAY ----------
+let playing=false,pidx=0,timer=null;
+const playBtn=document.getElementById('play');
+function stop(){playing=false;clearInterval(timer);playBtn.innerHTML='&#9654; PLAY CENTURY';}
+playBtn.addEventListener('click',()=>{
+  if(playing){stop();return;}
+  playing=true;playBtn.innerHTML='&#10073;&#10073; PAUSE';pidx=0;
+  select(YEARS[0]);
+  timer=setInterval(()=>{pidx++;if(pidx>=YEARS.length){stop();setTimeout(()=>select(null),700);return;}select(YEARS[pidx]);},900);
+});
+
+// init
+select(null);
+</script>
+</body>
+</html>
