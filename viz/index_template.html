@@ -5,18 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Heat of the Game: A Century of World Cup Football</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Karla:wght@400;500;700&family=Caveat:wght@600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
   /* Palette and type shared with abdulsamadsanni.github.io */
   :root{
-    --bg:#2a2028; --bg2:#3b2b30; --panel:#33272d; --panel2:#3b2b30;
-    --line:#4a3a3f; --line2:#5c4750;
-    --ink:#f3e9d4; --dim:#c3b39a; --faint:#93826f;
-    --hot:#ffbe6b; --verified:#c9524f; --cool:#3e7c74;
-    --t0:#40536e; --t1:#3e7c74; --t2:#9a9a4e; --t3:#d9a036; --t4:#ffbe6b; --t5:#f3e9d4;
-    --mono:'Karla',-apple-system,'Segoe UI',sans-serif;
-    --disp:'Fraunces',Georgia,serif;
-    --hand:'Caveat','Comic Sans MS',cursive;
+    --bg:#070b14; --bg2:#0c1322; --panel:#0e1626; --panel2:#121d31;
+    --line:#1b2740; --line2:#243352;
+    --ink:#e9eef9; --dim:#7e8db0; --faint:#54627f;
+    --hot:#ff6b35; --verified:#ff5132; --cool:#3b6bd6;
+    --t0:#2a3f7a; --t1:#6b4a9c; --t2:#c0457a; --t3:#ef6a3a; --t4:#f7b733; --t5:#fff0c2;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased}
@@ -36,17 +35,17 @@
   .stage{display:grid;grid-template-columns:1fr 312px;gap:18px;margin-top:22px}
   @media(max-width:880px){.stage{grid-template-columns:1fr}}
 
-  .mapcard{position:relative;background:radial-gradient(120% 120% at 50% 0%,#46333a 0%,#2a2028 70%);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .mapcard{position:relative;background:radial-gradient(120% 120% at 50% 0%,#0d1626 0%,#070b14 70%);border:1px solid var(--line);border-radius:14px;overflow:hidden}
   svg{display:block;width:100%;height:auto}
   .graticule{stroke:var(--line);stroke-width:.6;fill:none;opacity:.55}
   .tropic{stroke:var(--line2);stroke-width:.8;stroke-dasharray:2 5;fill:none}
-  .tropicband{fill:#ffbe6b;opacity:.05}
+  .tropicband{fill:#ff6b35;opacity:.035}
   .tlabel{font-family:var(--mono);font-size:8.5px;fill:var(--faint);letter-spacing:.1em}
-  .pt{stroke:#2a2028;stroke-width:.4;cursor:pointer;transition:opacity .5s ease}
+  .pt{stroke:#070b14;stroke-width:.4;cursor:pointer;transition:opacity .5s ease}
   .pt.dim{opacity:.07!important}
   .vring{fill:none;stroke:var(--verified);stroke-width:1.4}
   .clabel{font-family:var(--mono);font-size:10px;fill:var(--ink);font-weight:500}
-  .clabel-bg{fill:#2a2028;opacity:.55}
+  .clabel-bg{fill:#070b14;opacity:.55}
 
   .legend{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:9.5px;color:var(--dim);display:flex;align-items:center;gap:8px}
   .ramp{width:120px;height:7px;border-radius:4px;background:linear-gradient(90deg,var(--t0),var(--t1),var(--t2),var(--t3),var(--t4),var(--t5))}
@@ -57,25 +56,25 @@
   .ro-year{font-size:46px;font-weight:700;line-height:.9;letter-spacing:-.02em;margin:-2px 0 0}
   .ro-sub{color:var(--dim);font-size:13px;margin-top:-4px}
   .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
-  .stat{background:#241c22;border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+  .stat{background:#0a1120;border:1px solid var(--line);border-radius:9px;padding:9px 11px}
   .stat .k{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.12em;text-transform:uppercase}
   .stat .v{font-size:22px;font-weight:700;margin-top:3px}
   .stat .v small{font-size:11px;font-weight:500;color:var(--dim)}
   .delta-pos{color:var(--t4)} .delta-neg{color:var(--cool)}
 
-  .vcard{border:1px solid var(--verified);background:linear-gradient(180deg,rgba(201,82,79,.14),rgba(201,82,79,.03));border-radius:10px;padding:11px 12px}
+  .vcard{border:1px solid var(--verified);background:linear-gradient(180deg,rgba(255,81,50,.10),rgba(255,81,50,.02));border-radius:10px;padding:11px 12px}
   .vcard .vh{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--verified);display:flex;align-items:center;gap:6px}
   .vcard .vm{font-size:14px;font-weight:600;margin:6px 0 2px}
   .vcard .vt{font-family:var(--mono);font-size:12px;color:var(--ink)}
   .vcard .vn{font-size:11.5px;color:var(--dim);margin-top:6px;line-height:1.45}
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--verified);box-shadow:0 0 0 0 rgba(201,82,79,.6);animation:pulse 2.4s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,82,79,.5)}70%{box-shadow:0 0 0 7px rgba(201,82,79,0)}100%{box-shadow:0 0 0 0 rgba(201,82,79,0)}}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--verified);box-shadow:0 0 0 0 rgba(255,81,50,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,81,50,.5)}70%{box-shadow:0 0 0 7px rgba(255,81,50,0)}100%{box-shadow:0 0 0 0 rgba(255,81,50,0)}}
 
   /* ---- timeline ---- */
   .timeline{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px}
   .tl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
   .tl-title{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
-  .playbtn{font-family:var(--mono);font-size:11px;color:var(--ink);background:#241c22;border:1px solid var(--line2);border-radius:7px;padding:6px 13px;cursor:pointer;letter-spacing:.08em}
+  .playbtn{font-family:var(--mono);font-size:11px;color:var(--ink);background:#0a1120;border:1px solid var(--line2);border-radius:7px;padding:6px 13px;cursor:pointer;letter-spacing:.08em}
   .playbtn:hover{border-color:var(--hot);color:var(--hot)}
   .tl-svg{width:100%;height:96px}
   .tk{cursor:pointer}
@@ -92,7 +91,7 @@
   a{color:var(--hot);text-decoration:none;border-bottom:1px solid rgba(255,107,53,.3)}
 
   /* ---- tooltip ---- */
-  #tip{position:fixed;pointer-events:none;background:#241c22;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:12px;opacity:0;transition:opacity .12s;z-index:50;max-width:220px}
+  #tip{position:fixed;pointer-events:none;background:#0a1120;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-size:12px;opacity:0;transition:opacity .12s;z-index:50;max-width:220px}
   #tip .tt-m{font-weight:600} #tip .tt-s{font-family:var(--mono);color:var(--hot)} #tip .tt-c{color:var(--dim);font-size:11px;margin-top:2px}
   #tip .tt-w{margin-top:7px;padding-top:6px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--t4)}
   #tip .tt-k{display:block;color:var(--faint);font-size:8.5px;letter-spacing:.14em;margin-bottom:2px}
@@ -150,7 +149,7 @@ const W=1000,H=520;
 const proj=(lat,lon)=>[(lon+180)/360*W,(90-lat)/180*H];
 
 // thermal ramp for goals 0..6
-const STOPS=[[64,83,110],[62,124,116],[154,154,78],[217,160,54],[255,190,107],[243,233,212]];
+const STOPS=[[42,63,122],[107,74,156],[192,69,122],[239,106,58],[247,183,51],[255,240,194]];
 function ramp(t){t=Math.max(0,Math.min(1,t));const s=t*(STOPS.length-1);const i=Math.floor(s);const f=s-i;
   const a=STOPS[i],b=STOPS[Math.min(i+1,STOPS.length-1)];
   return `rgb(${Math.round(a[0]+(b[0]-a[0])*f)},${Math.round(a[1]+(b[1]-a[1])*f)},${Math.round(a[2]+(b[2]-a[2])*f)})`;}
@@ -329,13 +328,13 @@ function renderTimeline(){
   // mean line
   const ym=yScale(ALLMEAN);
   tl.appendChild(el('line',{x1:0,y1:ym,x2:TLW,y2:ym,class:'tl-mean'}));
-  const ml=el('text',{x:TLW-2,y:ym-4,class:'tk-yr','text-anchor':'end'});ml.textContent='all-time mean';ml.setAttribute('fill','#3e7c74');tl.appendChild(ml);
+  const ml=el('text',{x:TLW-2,y:ym-4,class:'tk-yr','text-anchor':'end'});ml.textContent='all-time mean';ml.setAttribute('fill','#3b6bd6');tl.appendChild(ml);
   tl.appendChild(el('line',{x1:0,y1:TLH-padB,x2:TLW,y2:TLH-padB,class:'tl-axis'}));
   YEARS.forEach((y,i)=>{
     const x=xScale(i),yv=yScale(byYear[y].gpm);
     const g=el('g',{class:'tk'+(selected===y?' tk-sel':'')});
     g.appendChild(el('line',{x1:x,y1:TLH-padB,x2:x,y2:yv,class:'tk-bar',stroke:goalColor(byYear[y].gpm/6),'stroke-width':selected===y?5:3,'stroke-opacity':selected===null||selected===y?1:.4}));
-    g.appendChild(el('circle',{cx:x,cy:yv,r:selected===y?5:3.2,fill:goalColor(byYear[y].gpm/6),stroke:'#2a2028','stroke-width':1}));
+    g.appendChild(el('circle',{cx:x,cy:yv,r:selected===y?5:3.2,fill:goalColor(byYear[y].gpm/6),stroke:'#070b14','stroke-width':1}));
     if(i%2===0||selected===y){const t=el('text',{x:x,y:TLH-6,class:'tk-yr','text-anchor':'middle'});t.textContent=("'"+String(y).slice(2));g.appendChild(t);}
     g.addEventListener('click',()=>{select(selected===y?null:y);});
     tl.appendChild(g);
