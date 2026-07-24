@@ -1,6 +1,6 @@
 """Step 3 - join real per-match weather from the Open-Meteo archive.
 
-Free, no API key, global coverage back to 1940. For each match we pull hourly
+Free, no API key, global coverage back to 1940. For each match this pulls hourly
 temperature / humidity / apparent-temperature and summarise the afternoon-to-
 evening window, when World Cup matches are played.
 

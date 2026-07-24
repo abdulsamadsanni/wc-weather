@@ -25,7 +25,8 @@ VERIFIED = {
         "note": "Fortaleza. First cooling break in a World Cup knockout match "
                 "(32'). Netherlands came from behind to win 2-1."},
     "2022-11-20|Qatar|Ecuador": {
-        "temp": "~21\u00b0C on pitch (\u224830\u00b0C+ outside)", "humidity": "controlled",
+        "temp": "~21\u00b0C on pitch (\u224830\u00b0C+ outside)",
+        "humidity": "controlled",
         "note": "The whole tournament was moved to November to dodge Qatar's "
                 "40\u00b0C+ summer; stadiums were air-conditioned to ~21\u00b0C."},
 }

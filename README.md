@@ -1,8 +1,9 @@
 # The Heat of the Game
 
-**Does weather change a World Cup match?** An end-to-end data study over every
-World Cup match from 1930 to 2026, built to be honest about what the data can
-and cannot prove.
+An end-to-end data study of every World Cup match from 1930 to 2026, testing
+whether weather changes how football is played. It does not. Scoring is governed
+by the era a match was played in, and this repository shows the work behind that
+conclusion.
 
 [**> Live interactive atlas**](https://abdulsamadsanni.github.io/wc-weather/) - 1,068 matches plotted by host
 city across a century, scrubbable tournament by tournament, with three
@@ -10,13 +11,18 @@ documented extreme-heat matches verified against contemporary reporting.
 
 ![atlas](viz/preview.png)
 
-## The question, and the honest answer
+## The result
 
-**See [FINDINGS.md](FINDINGS.md) for the full written results.** In short:
+Full write-up in [FINDINGS.md](FINDINGS.md). In short:
 
-The naive version of this project would correlate goals against temperature and
-declare that heat slows the game. That number is not trustworthy, because the
-single largest pattern in World Cup scoring has nothing to do with weather:
+**Temperature has no detectable effect on scoring.** Across 1,014 matches with
+weather data, the raw effect is +0.003 goals per degree Celsius (p = 0.77), and
+holding era, host, humidity and latitude constant leaves it at +0.023 goals per
+degree Celsius (p = 0.19). Neither is significant, so the popular intuition that
+heat slows the game does not survive the test.
+
+**Era is what actually moves scoring.** Goals per match have swung enormously
+for tactical reasons unrelated to climate:
 
 | Tournament | Goals / match |
 |---|---|
@@ -24,13 +30,14 @@ single largest pattern in World Cup scoring has nothing to do with weather:
 | 1990 (Italy) | 2.21 |
 | 2026 (in progress) | 2.96 |
 
-Scoring more than halved between 1954 and 1990 as tactics tightened, a swing far
-larger than any plausible weather effect. Host selection bundles climate with
-playing style, and altitude and kickoff time pull in their own directions. So
-the analysis here does not stop at a correlation. It measures the raw
-temperature effect, then holds era, host, latitude and humidity constant and
-reports how far the effect moves. That movement is the result, not the headline
-number.
+That is a 59% decline from peak to trough. Decade explains roughly 106 times
+more of the variance in goals than latitude does.
+
+The reason the analysis does not stop at a raw correlation is that host
+selection bundles climate with playing style, while altitude and kickoff time
+pull in their own directions. Measuring the naive effect and then the controlled
+effect is what separates a real signal from those confounds. Here it shows there
+is no signal to find.
 
 ## Pipeline
 
@@ -44,7 +51,7 @@ build_viz_data.py regenerate the embedded atlas
 
 ## Run it
 
-**Just want to see the result?** Open `viz/index.html` in any browser. No Python, no setup.
+To view the atlas only, open `viz/index.html` in any browser. No Python and no setup are required.
 
 **To populate real weather and run the analysis:**
 
@@ -84,9 +91,10 @@ weather archive and are excluded from the weather model rather than guessed.
 ## Why it is built this way
 
 The interesting engineering is not the model, it is the discipline around it:
-refusing to fabricate weather for pre-1940 matches, separating a real climate
-signal from the era trend that would otherwise masquerade as one, and shipping a
-visualization that states its own limits instead of overselling a finding.
+refusing to fabricate weather for pre-1940 matches, testing a candidate climate
+effect against the era trend that would otherwise masquerade as one, and shipping
+a visualization that reports a null result plainly instead of overselling a
+finding that is not there.
 
 ## Skills demonstrated
 
@@ -95,7 +103,7 @@ visualization that states its own limits instead of overselling a finding.
 - **API integration**: one weather source consumed two ways, a cached batch
   pipeline in Python and a live in-browser join in JavaScript.
 - **Statistics**: fixed-effects regression to isolate a candidate effect from era
-  and host confounders, and reporting a null result honestly when one appears.
+  and host confounders, and reporting the resulting null honestly.
 - **Data visualization**: a hand-built interactive SVG atlas with no charting
   library, performing on-hover live data retrieval.
 - **Methodology**: leakage-aware joins, explicit handling of missing pre-1940

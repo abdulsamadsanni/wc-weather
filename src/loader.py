@@ -1,7 +1,7 @@
 """Step 1 - load World Cup matches from the public international-results dataset.
 
 Source: github.com/martj42/international_results (CC0). ~49k internationals
-since 1872; we keep only tournament == "FIFA World Cup". The file is fetched
+since 1872; only tournament == "FIFA World Cup" is kept. The file is fetched
 with requests (which bundles its own CA certificates) rather than pandas' URL
 reader, to avoid Windows certificate-store SSL errors under some setups.
 """

@@ -1,9 +1,10 @@
-"""Step 4 - does heat change the match? Naive answer vs controlled answer.
+"""Step 4 - test whether temperature affects scoring, naive vs controlled.
 
 A raw correlation of goals against temperature is confounded by era (scoring
 fell for decades for tactical reasons), by which countries host, and by
-altitude. We show the naive number, then add era and host fixed effects and
-watch the apparent weather effect move. That movement is the finding.
+altitude. This prints the naive estimate, then the estimate with era and host
+fixed effects added, so the two can be compared directly. On the current data
+neither is statistically significant, which is the reported result.
 """
 from __future__ import annotations
 import pathlib
@@ -46,7 +47,7 @@ def main() -> None:
           f"goals/degC once era and host are held constant.")
     print("That movement - not the raw number - is the result.\n")
 
-    # paste-ready block for FINDINGS.md section 3
+    # compact summary block, mirrored in FINDINGS.md
     print("--- copy into FINDINGS.md ---")
     print(f"- Sample:        {len(df)} matches with weather")
     print(f"- Naive effect:  {naive.params['temp_c']:+.4f} goals per degC "
